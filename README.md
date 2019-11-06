@@ -6,15 +6,16 @@ Red social basada en tablones con información sobre los distintos carriles bici
 Los usuarios podran subir fotos en los comentarios, las cuales se almacenarán en principio en un servidor externo (Imgur).
 Para la interacción entre los usuarios hemos elegido el uso de servicios externos, eligiendo Twitter.
 Los usuarios tendrán distintos tipos de roles que les permitirán realizar distintas tareas. Los roles serán:
-  Administrador 
-  Usuario
-  Invitado
+---------------
+  * Administrador 
+  * Usuario
+  * Invitado
 
 Entidades: 
-
-  Usuarios
-    rol
-    permiso
-  Tablones
-  Mensajes
-  Carriles
+-----------
+  * Usuarios
+    * rol
+    * permiso
+  * Tablones
+  * Mensajes
+  * Carriles
