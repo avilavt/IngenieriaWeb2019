@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity.service;
+package entity.service.service;
 
-import entity.Comentario;
+import entity.service.Comentario;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,10 +22,10 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author ak
+ * @author avila
  */
 @Stateless
-@Path("entity.comentario")
+@Path("entity.service.comentario")
 public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
 
     @PersistenceContext(unitName = "A1ServidorPU")

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity.service;
+package entity.service.service;
 
-import entity.Tablon;
+import entity.service.Tablon;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,10 +22,10 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author ak
+ * @author avila
  */
 @Stateless
-@Path("entity.tablon")
+@Path("entity.service.tablon")
 public class TablonFacadeREST extends AbstractFacade<Tablon> {
 
     @PersistenceContext(unitName = "A1ServidorPU")

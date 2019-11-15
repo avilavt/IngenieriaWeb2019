@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity.service;
+package entity.service.service;
 
-import entity.Usuario;
+import entity.service.Usuario;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -22,10 +22,10 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author ak
+ * @author avila
  */
 @Stateless
-@Path("entity.usuario")
+@Path("entity.service.usuario")
 public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
 
     @PersistenceContext(unitName = "A1ServidorPU")

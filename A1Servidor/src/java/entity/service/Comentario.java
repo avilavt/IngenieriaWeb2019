@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity;
+package entity.service;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,14 +21,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ak
+ * @author avila
  */
 @Entity
 @Table(name = "COMENTARIO")
@@ -35,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Comentario.findAll", query = "SELECT c FROM Comentario c")
     , @NamedQuery(name = "Comentario.findByIdComentario", query = "SELECT c FROM Comentario c WHERE c.idComentario = :idComentario")
+    , @NamedQuery(name = "Comentario.findByFechaCreacion", query = "SELECT c FROM Comentario c WHERE c.fechaCreacion = :fechaCreacion")
     , @NamedQuery(name = "Comentario.findByContenido", query = "SELECT c FROM Comentario c WHERE c.contenido = :contenido")})
 public class Comentario implements Serializable {
 
@@ -44,9 +47,10 @@ public class Comentario implements Serializable {
     @Basic(optional = false)
     @Column(name = "ID_COMENTARIO")
     private Integer idComentario;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @Column(name = "FECHA_CREACION")
+    @Temporal(TemporalType.DATE)
+    private Date fechaCreacion;
+    @Size(max = 256)
     @Column(name = "CONTENIDO")
     private String contenido;
     @JoinTable(name = "COMENTARIO_USUARIO", joinColumns = {
@@ -65,17 +69,20 @@ public class Comentario implements Serializable {
         this.idComentario = idComentario;
     }
 
-    public Comentario(Integer idComentario, String contenido) {
-        this.idComentario = idComentario;
-        this.contenido = contenido;
-    }
-
     public Integer getIdComentario() {
         return idComentario;
     }
 
     public void setIdComentario(Integer idComentario) {
         this.idComentario = idComentario;
+    }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
     public String getContenido() {
@@ -125,7 +132,7 @@ public class Comentario implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.Comentario[ idComentario=" + idComentario + " ]";
+        return "entity.service.Comentario[ idComentario=" + idComentario + " ]";
     }
     
 }
