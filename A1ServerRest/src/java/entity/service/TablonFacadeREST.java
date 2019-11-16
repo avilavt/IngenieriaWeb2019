@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity.service.service;
+package entity.service;
 
-import entity.service.Comentario;
-import java.sql.Date;
+import entity.Tablon;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -27,27 +25,27 @@ import javax.ws.rs.core.MediaType;
  * @author avila
  */
 @Stateless
-@Path("entity.service.comentario")
-public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
+@Path("entity.tablon")
+public class TablonFacadeREST extends AbstractFacade<Tablon> {
 
-    @PersistenceContext(unitName = "A1ServidorPU")
+    @PersistenceContext(unitName = "A1ServerRestPU")
     private EntityManager em;
 
-    public ComentarioFacadeREST() {
-        super(Comentario.class);
+    public TablonFacadeREST() {
+        super(Tablon.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void create(Comentario entity) {
+    public void create(Tablon entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, Comentario entity) {
+    public void edit(@PathParam("id") Integer id, Tablon entity) {
         super.edit(entity);
     }
 
@@ -60,34 +58,22 @@ public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Comentario find(@PathParam("id") Integer id) {
+    public Tablon find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comentario> findAll() {
+    public List<Tablon> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comentario> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<Tablon> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
-    }
-    
-    //Buscar mensajes de cierta fecha ordenados por id en forma descendente
-    @GET
-    @Path("{from}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comentario> findByDate(@PathParam("from") Date fecha)
-    {
-        Query q;        
-        q = this.em.createQuery("select c from Comentario c where m.fecha_creacion = :fecha order by m.id desc");
-        q.setParameter("fecha", fecha);
-        return q.getResultList();
     }
 
     @GET

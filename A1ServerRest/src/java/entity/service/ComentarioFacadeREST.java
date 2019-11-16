@@ -3,15 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity.service.service;
+package entity.service;
 
-import entity.service.Comentario;
+import entity.Comentario;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -27,10 +30,10 @@ import javax.ws.rs.core.MediaType;
  * @author avila
  */
 @Stateless
-@Path("entity.service.comentario")
+@Path("entity.comentario")
 public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
 
-    @PersistenceContext(unitName = "A1ServidorPU")
+    @PersistenceContext(unitName = "A1ServerRestPU")
     private EntityManager em;
 
     public ComentarioFacadeREST() {
@@ -77,19 +80,50 @@ public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
     public List<Comentario> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
-    
-    //Buscar mensajes de cierta fecha ordenados por id en forma descendente
+
+    //Comentario.findByContenidoParcial
     @GET
-    @Path("{from}")
+    @Path("contenido/{contenido}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comentario> findByDate(@PathParam("from") Date fecha)
+    public List<Comentario> findByContenidoParcial(@PathParam("contenido") String contenido)
     {
-        Query q;        
-        q = this.em.createQuery("select c from Comentario c where m.fecha_creacion = :fecha order by m.id desc");
-        q.setParameter("fecha", fecha);
-        return q.getResultList();
+        return em.createNamedQuery("Comentario.findByContenidoParcial").setParameter("contenido", contenido).getResultList();
+    }
+    
+    @GET
+    @Path("fecha/{fecha}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Comentario> findByDate(@PathParam("fecha") String string)
+    {
+        Date date = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+        try {
+            date = (Date) format.parse(string);
+        } catch (ParseException ex) {
+            Logger.getLogger(ComentarioFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return em.createNamedQuery("Comentario.findByFechaCreacion").setParameter("fechaCreacion", date).getResultList();
+    }
+    
+    @GET
+    @Path("{day}/{month}/{year}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Comentario> findByDate(@PathParam("day") Integer day, @PathParam("month") Integer month, @PathParam("year") Integer year)
+    {
+        Date date = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+        String str = year + "-" + month + "-" + day; 
+        try {
+            date = (Date) format.parse(str);
+        } catch (ParseException ex) {
+            Logger.getLogger(ComentarioFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return em.createNamedQuery("Comentario.findByFechaCreacion").setParameter("fechaCreacion", date).getResultList();
     }
 
+    
+    
+    
     @GET
     @Path("count")
     @Produces(MediaType.TEXT_PLAIN)
@@ -97,6 +131,7 @@ public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
         return String.valueOf(super.count());
     }
 
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
