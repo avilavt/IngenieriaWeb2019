@@ -23,6 +23,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -66,7 +67,46 @@ public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
     public Comentario find(@PathParam("id") Integer id) {
         return super.find(id);
     }
+    
+    @GET
+    @Path("id")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public Comentario findId(@QueryParam("id") Integer id) {
+        return (Comentario) this.getEntityManager().createNamedQuery("Comentario.findByIdComentario").getSingleResult();
+    }
+    
 
+    @GET
+    @Path("comentario")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Comentario> findComentarios() {
+        return em.createNamedQuery("Comentario.findAll").getResultList();
+    }
+    
+    @GET
+    @Path("tablon=3")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Comentario> findByIdTablonIgualA3()
+    {
+        return em.createNamedQuery("Comentario.findByIdTablon=3").getResultList();
+    }
+    
+    @GET
+    @Path("tablon+/{idTablon}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Comentario> findByIdTablon2(@PathParam("idTablon") Integer idTablon)
+    {
+        return super.findByIdTablon(idTablon);
+    }
+    
+    @GET
+    @Path("tablon")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Comentario> findByIdTablon(@QueryParam("idTablon") Integer idTablon)
+    {
+        return em.createQuery("SELECT c FROM Comentario c WHERE c.idTablon = :idTablon").setParameter("idTablon", idTablon).getResultList();
+    }
+    
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
