@@ -67,6 +67,14 @@ public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
     public Comentario find(@PathParam("id") Integer id) {
         return super.find(id);
     }
+
+    //Consulta 1.3 (Alae y Sanan)
+    @GET
+    @Path("contenido/{idUsuario}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Comentario> findComentariosUser(@PathParam("idUsuario") String idUsuario){
+        return em.createNamedQuery("Comentario.findComentariosUser").setParameter("idUsuario", idUsuario).getResultList();
+    }
     
     @GET
     @Path("id")

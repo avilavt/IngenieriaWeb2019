@@ -61,7 +61,23 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
     public Usuario find(@PathParam("id") Integer id) {
         return super.find(id);
     }
+    
+    //CONSULTA 1.1 (Alae y Sanan)
+    @GET
+    @Path("contenido/{patron}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Usuario> findByPatron(@PathParam("patron") String patron){
+        return em.createNamedQuery("Usuario.findbyPatron").setParameter("patron", patron).getResultList();
+    }
+    
+    //CONSULTA 1.2 (Alae y Sanan)
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Usuario> findNombreAsc(){
+        return em.createNamedQuery("Usuario.findNombreAsc").getResultList();
+    }
 
+    
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

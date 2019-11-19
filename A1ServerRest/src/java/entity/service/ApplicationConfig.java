@@ -30,7 +30,6 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(entity.service.ComentarioFacadeREST.class);
-        resources.add(entity.service.TablonFacadeREST.class);
         resources.add(entity.service.UsuarioFacadeREST.class);
     }
     
