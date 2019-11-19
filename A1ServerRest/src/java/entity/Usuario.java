@@ -31,13 +31,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")
-    , @NamedQuery(name = "Usuario.findbyPatron", query = "SELECT u FROM Usuario u WHERE u.nombre LIKE ':patron%' OR u.email LIKE ':patron%'")
-    , @NamedQuery(name = "Usuario.findNombreAsc", query = "SELECT u FROM Usuario u ORDER BY u.nombre ASC")    
-    , @NamedQuery(name = "Usuario.findNombreAsc", query = "SELECT u FROM Usuario u ORDER BY u.nombre ASC")
     , @NamedQuery(name = "Usuario.findByIdUsuario", query = "SELECT u FROM Usuario u WHERE u.idUsuario = :idUsuario")
     , @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")
     , @NamedQuery(name = "Usuario.findByNombre", query = "SELECT u FROM Usuario u WHERE u.nombre = :nombre")
-    , @NamedQuery(name = "Usuario.findByRol", query = "SELECT u FROM Usuario u WHERE u.rol = :rol")})
+    , @NamedQuery(name = "Usuario.findByRol", query = "SELECT u FROM Usuario u WHERE u.rol = :rol")
+    // consultas nuevas
+    , @NamedQuery(name = "Usuario.custom.findByPatron", query = "SELECT u FROM Usuario u WHERE u.nombre LIKE :patron")
+    , @NamedQuery(name = "Usuario.custom.findNombreAsc", query = "SELECT u FROM Usuario u ORDER BY u.nombre ASC")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -6,12 +6,7 @@
 package entity.service;
 
 import entity.Comentario;
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,7 +18,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -34,7 +28,7 @@ import javax.ws.rs.core.MediaType;
 @Path("entity.comentario")
 public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
 
-    @PersistenceContext(unitName = "A1ServerRestPU")
+    @PersistenceContext(unitName = "A1ServerRestTestPU")
     private EntityManager em;
 
     public ComentarioFacadeREST() {
@@ -68,53 +62,6 @@ public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
         return super.find(id);
     }
 
-    //Consulta 1.3 (Alae y Sanan)
-    @GET
-    @Path("contenido/{idUsuario}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comentario> findComentariosUser(@PathParam("idUsuario") String idUsuario){
-        return em.createNamedQuery("Comentario.findComentariosUser").setParameter("idUsuario", idUsuario).getResultList();
-    }
-    
-    @GET
-    @Path("id")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public Comentario findId(@QueryParam("id") Integer id) {
-        return (Comentario) this.getEntityManager().createNamedQuery("Comentario.findByIdComentario").getSingleResult();
-    }
-    
-
-    @GET
-    @Path("comentario")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comentario> findComentarios() {
-        return em.createNamedQuery("Comentario.findAll").getResultList();
-    }
-    
-    @GET
-    @Path("tablon=3")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comentario> findByIdTablonIgualA3()
-    {
-        return em.createNamedQuery("Comentario.findByIdTablon=3").getResultList();
-    }
-    
-    @GET
-    @Path("tablon+/{idTablon}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comentario> findByIdTablon2(@PathParam("idTablon") Integer idTablon)
-    {
-        return super.findByIdTablon(idTablon);
-    }
-    
-    @GET
-    @Path("tablon")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comentario> findByIdTablon(@QueryParam("idTablon") Integer idTablon)
-    {
-        return em.createQuery("SELECT c FROM Comentario c WHERE c.idTablon = :idTablon").setParameter("idTablon", idTablon).getResultList();
-    }
-    
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -129,49 +76,6 @@ public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
         return super.findRange(new int[]{from, to});
     }
 
-    //Comentario.findByContenidoParcial
-    @GET
-    @Path("contenido/{contenido}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comentario> findByContenidoParcial(@PathParam("contenido") String contenido)
-    {
-        return em.createNamedQuery("Comentario.findByContenidoParcial").setParameter("contenido", contenido).getResultList();
-    }
-    
-    @GET
-    @Path("fecha/{fecha}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comentario> findByDate(@PathParam("fecha") String string)
-    {
-        Date date = null;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-        try {
-            date = (Date) format.parse(string);
-        } catch (ParseException ex) {
-            Logger.getLogger(ComentarioFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return em.createNamedQuery("Comentario.findByFechaCreacion").setParameter("fechaCreacion", date).getResultList();
-    }
-    
-    @GET
-    @Path("{day}/{month}/{year}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Comentario> findByDate(@PathParam("day") Integer day, @PathParam("month") Integer month, @PathParam("year") Integer year)
-    {
-        Date date = null;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
-        String str = year + "-" + month + "-" + day; 
-        try {
-            date = (Date) format.parse(str);
-        } catch (ParseException ex) {
-            Logger.getLogger(ComentarioFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return em.createNamedQuery("Comentario.findByFechaCreacion").setParameter("fechaCreacion", date).getResultList();
-    }
-
-    
-    
-    
     @GET
     @Path("count")
     @Produces(MediaType.TEXT_PLAIN)
@@ -179,7 +83,6 @@ public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
         return String.valueOf(super.count());
     }
 
-    
     @Override
     protected EntityManager getEntityManager() {
         return em;

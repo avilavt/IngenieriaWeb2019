@@ -28,7 +28,7 @@ import javax.ws.rs.core.MediaType;
 @Path("entity.tablon")
 public class TablonFacadeREST extends AbstractFacade<Tablon> {
 
-    @PersistenceContext(unitName = "A1ServerRestPU")
+    @PersistenceContext(unitName = "A1ServerRestTestPU")
     private EntityManager em;
 
     public TablonFacadeREST() {

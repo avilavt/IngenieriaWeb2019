@@ -28,7 +28,7 @@ import javax.ws.rs.core.MediaType;
 @Path("entity.usuario")
 public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
 
-    @PersistenceContext(unitName = "A1ServerRestPU")
+    @PersistenceContext(unitName = "A1ServerRestTestPU")
     private EntityManager em;
 
     public UsuarioFacadeREST() {
@@ -42,6 +42,15 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
         super.create(entity);
     }
 
+    @GET
+    @Path("id/order")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Usuario> findAllOrderByName() {
+        return em.createNamedQuery("Usuario.custom.findNombreAsc").getResultList();
+    }
+    
+    
+    
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -49,6 +58,8 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
         super.edit(entity);
     }
 
+    
+    
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
@@ -61,23 +72,7 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
     public Usuario find(@PathParam("id") Integer id) {
         return super.find(id);
     }
-    
-    //CONSULTA 1.1 (Alae y Sanan)
-    @GET
-    @Path("contenido/{patron}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Usuario> findByPatron(@PathParam("patron") String patron){
-        return em.createNamedQuery("Usuario.findbyPatron").setParameter("patron", patron).getResultList();
-    }
-    
-    //CONSULTA 1.2 (Alae y Sanan)
-    @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Usuario> findNombreAsc(){
-        return em.createNamedQuery("Usuario.findNombreAsc").getResultList();
-    }
 
-    
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -92,6 +87,25 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
         return super.findRange(new int[]{from, to});
     }
 
+    //Consultar los usuarios por su rol 
+    @GET
+    @Path("rol/{rol}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Usuario> findByRol(@PathParam("rol") String rol)
+    {
+        return em.createNamedQuery("Usuario.findByRol").setParameter("rol", rol).getResultList();
+    }
+    
+    //Consultar los usuarios por un patrón de su nombre
+    @GET
+    @Path("nombre/{nombre}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Usuario> findByPatronNombre(@PathParam("nombre") String nombre)
+    {
+        String patron = "%" + nombre + "%";
+        return em.createNamedQuery("Usuario.custom.findByPatron").setParameter("patron", patron).getResultList();
+    }
+    
     @GET
     @Path("count")
     @Produces(MediaType.TEXT_PLAIN)
@@ -103,5 +117,6 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
     protected EntityManager getEntityManager() {
         return em;
     }
+    
     
 }

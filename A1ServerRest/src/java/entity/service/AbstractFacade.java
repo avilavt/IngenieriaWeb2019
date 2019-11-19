@@ -61,10 +61,4 @@ public abstract class AbstractFacade<T> {
         return ((Long) q.getSingleResult()).intValue();
     }
     
-    // Funcion de busqueda propia
-    public List<T> findByIdTablon(int idTablon)
-    {
-        return this.getEntityManager().createNamedQuery("Comentario.findByIdTablon").setParameter("idTablon", idTablon).getResultList();
-    }
-     
 }
