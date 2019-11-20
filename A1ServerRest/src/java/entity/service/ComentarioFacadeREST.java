@@ -6,6 +6,7 @@
 package entity.service;
 
 import entity.Comentario;
+import java.sql.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -69,6 +70,19 @@ public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
         return super.findAll();
     }
 
+    //Consulta que devuelve los comentarios de una fecha determinada
+    @GET
+    @Path("fecha/{year}/{month}/{day}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Comentario> findByDate(@PathParam("year") Integer year, @PathParam("month") Integer month
+                            ,@PathParam("day") Integer day) 
+    {
+        String fechaStr = year + "-" + month + "-" + day;
+        Date fechaCreacion = Date.valueOf(fechaStr);
+        return em.createNamedQuery("Comentario.custom.findByDate").setParameter("fechaCreacion"
+                , fechaCreacion).getResultList();
+    }
+    
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
