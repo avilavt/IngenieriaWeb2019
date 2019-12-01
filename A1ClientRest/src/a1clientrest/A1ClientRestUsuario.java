@@ -17,7 +17,7 @@ public class A1ClientRestUsuario {
         int lastId = a1.lastId();
         System.out.println("********************************************************");
         System.out.println("LastId: " + lastId);
-        //a1.create("Laffey", "sleepy_bunny@eagle.union", "Destroyer");
+        a1.create("Laffey", "sleepy_bunny@eagle.union", "Destroyer");
         //a1.update("4", "Usuario de Prueba");
         Usuario us = a1.findById("4");
                 System.out.println("Id user: " + us.getIdUsuario());

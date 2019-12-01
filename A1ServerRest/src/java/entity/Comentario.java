@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -40,6 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Comentario.findByFechaCreacion", query = "SELECT c FROM Comentario c WHERE c.fechaCreacion = :fechaCreacion")
     , @NamedQuery(name = "Comentario.findByContenido", query = "SELECT c FROM Comentario c WHERE c.contenido = :contenido")
     , @NamedQuery(name = "Comentario.custom.findByDate", query = "SELECT c FROM Comentario c WHERE c.fechaCreacion = :fechaCreacion")
+    , @NamedQuery(name = "Comentario.custom.findByContenido", query = "SELECT c FROM Comentario c WHERE c.contenido LIKE :contenido")
+    , @NamedQuery(name = "Comentario.custom.findByUsuarioId", query = "SELECT c from Comentario c inner join c.usuarioCollection usuario WHERE usuario.idUsuario = :usuarioId")
 })
 
 public class Comentario implements Serializable {
@@ -83,7 +86,7 @@ public class Comentario implements Serializable {
     public Date getFechaCreacion() {
         return fechaCreacion;
     }
-
+    
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }

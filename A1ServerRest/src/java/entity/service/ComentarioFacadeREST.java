@@ -63,6 +63,14 @@ public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
         return super.find(id);
     }
 
+    // Consulta que devuelve los comentarios realizados por el usuario "id"
+    @GET
+    @Path("usuario/{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Comentario> findByUsuario(@PathParam("id") Integer id) {
+        return em.createNamedQuery("Comentario.custom.findByUsuarioId").setParameter("usuarioId", id).getResultList();
+    }
+    
     @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -70,6 +78,16 @@ public class ComentarioFacadeREST extends AbstractFacade<Comentario> {
         return super.findAll();
     }
 
+    //Consultar los comentarios que en su contenido se halla un patrón
+    @GET
+    @Path("contenido/{contenido}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public List<Comentario> findByPatronNombre(@PathParam("contenido") String contenido)
+    {
+        String patron = "%" + contenido + "%";
+        return em.createNamedQuery("Usuario.custom.findByPatron").setParameter("contenido", patron).getResultList();
+    }
+    
     //Consulta que devuelve los comentarios de una fecha determinada
     @GET
     @Path("fecha/{year}/{month}/{day}")
