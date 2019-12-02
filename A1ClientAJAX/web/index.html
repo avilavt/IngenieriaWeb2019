@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Find User by Email</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script>
+            var xhttp;
+            function createConnection() {
+                xhttp = new XMLHttpRequest();
+            }
+            function getMessage() {
+                createConnection();
+                xhttp.onreadystatechange = handleResponse;
+                var email = document.getElementById("userEmail").value;
+                var url = "http://localhost:8080/A1ServerRestTest/webresources/entity.usuario/email/" + email;
+                console.log(url);
+                xhttp.open("GET", url, true);
+                xhttp.send(null);
+
+            }
+            function handleResponse() {
+                 
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                   
+                   // Leemos la respuesta en JSON
+                   
+                   var texto = JSON.parse(xhttp.responseText);
+                   document.getElementById('userEmail').value = texto.email;
+                   document.getElementById('userName').value = texto.nombre;
+                   document.getElementById('userRole').value = texto.rol;
+                   
+                   
+                   // Si la respuesta fuese en XML
+                   /* 
+                   var xmlDoc = xhttp.responseXML;
+                  
+                   var email = xmlDoc.getElementsByTagName("email");
+                   var name = xmlDoc.getElementsByTagName("nombre");
+                   var role = xmlDoc.getElementsByTagName("rol");
+                  
+                   var myEmail = mail[0].childNodes[0].nodeValue;
+                   var myName = name[0].childNodes[0].nodeValue;
+                   var myRole = role[0].childNodes[0].nodeValue;
+            
+                   document.getElementById('userEmail').value = myEmail;
+                   document.getElementById('userName').value = myName;
+                   document.getElementById('userRole').value = myRole;
+                   */
+
+            }
+           }
+        </script>
+    </head>
+    
+    <body>
+        <table border="1">
+            <tbody>
+                <tr>
+                    <td>Enter User Email :</td>
+                    <td><input type="text" id="userEmail" size="50"/>
+                        <input type="button" value="Get Data" onclick="getMessage()"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td><input type="text" id="userName" size="50"/></td>
+                </tr>
+                <tr>
+                    <td>Role</td>
+                    <td><input type="text" id="userRole" size="50"/></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </body>
+</html>

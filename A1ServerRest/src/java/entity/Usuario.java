@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Usuario.findByRol", query = "SELECT u FROM Usuario u WHERE u.rol = :rol")
     , @NamedQuery(name = "Usuario.custom.findByPatron", query = "SELECT u FROM Usuario u WHERE u.nombre LIKE :patron")
     , @NamedQuery(name = "Usuario.custom.findNombreAsc", query = "SELECT u FROM Usuario u ORDER BY u.nombre ASC")
+    , @NamedQuery(name = "Usuario.custom.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email" )
 })
 public class Usuario implements Serializable {
 
