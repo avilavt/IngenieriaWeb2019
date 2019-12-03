@@ -83,11 +83,16 @@ public class UsuarioFacadeREST extends AbstractFacade<Usuario> {
     //Consulta que devuelve los usuarios el usuario que tiene el email pasado como parametro
     @GET
     @Path("email/{email}")
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Usuario findByEmail(@PathParam("email") String email) {
         return (Usuario) em.createNamedQuery("Usuario.custom.findByEmail").setParameter("email", email).getSingleResult();
     }
-    
+    @GET
+    @Path("emailJSON/{email}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Usuario findByEmailJSON(@PathParam("email") String email) {
+        return (Usuario) em.createNamedQuery("Usuario.custom.findByEmail").setParameter("email", email).getSingleResult();
+    }
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
