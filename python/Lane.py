@@ -2,6 +2,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Flask, jsonify
+from Coordinates import Coordinates
+from Description import Description
 import urllib, json
 
 class Lane:
@@ -10,7 +12,7 @@ class Lane:
         self.laneList = list()
 
         url = "https://datosabiertos.malaga.eu/recursos/transporte/trafico/da_carrilesBici-25830.geojson"
-        response = urllib.urlopen(url)
+        response = urllib.request.urlopen(url)
         self.data = response.read()
         features = json.loads(self.data)['features']
 
@@ -18,13 +20,19 @@ class Lane:
             id = feature['id']
             ogc_fid = feature['properties']['ogc_fid']
             name = feature['properties']['name']
-            description = feature['properties']['description']
+            description = Description(feature['properties']['description']).getDescription()
             coordinates = list()
-            geometry = feature['geometry']['coordinates']
-            #print geometry
-            for coordinate in geometry:
-                coordinates.append(coordinate)
+            #Málaga longitud=4 latitud=36
+            geometries = feature['geometry']['coordinates']
+            if feature['geometry']['type'] == 'Point':
+                coordenadas = Coordinates(geometries[0],geometries[1])
+                coordinates.append({'latitud':coordenadas.getLatitud(),'longitud':coordenadas.getLongitud()})
+            elif feature['geometry']['type'] == 'LineString':
+                for  geometry in geometries:
+                    coordenadas = Coordinates(geometry[0],geometry[1])
+                    coordinates.append({'latitud':coordenadas.getLatitud(),'longitud':coordenadas.getLongitud()})
             self.laneList.append({'name':name,'id':id,'ogc_fid':ogc_fid,'description':description,'coordinates':coordinates})
+
 
     def get_lanes(self):
         return jsonify(self.laneList)
